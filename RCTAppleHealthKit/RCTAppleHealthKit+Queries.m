@@ -295,6 +295,11 @@
                            completion:(void (^)(double, NSDate *, NSDate *, NSError *))completionHandler {
 
     NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesOnDay:day];
+
+    // Exclude manual added steps
+    NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"metadata.%K != YES", HKMetadataKeyWasUserEntered];
+    predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, subPredicate]];
+
     HKStatisticsQuery *query = [[HKStatisticsQuery alloc] initWithQuantityType:quantityType
                                                           quantitySamplePredicate:predicate
                                                           options:HKStatisticsOptionCumulativeSum
