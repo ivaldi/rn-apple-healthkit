@@ -26,6 +26,11 @@
     }
     
     NSPredicate *predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
+    
+//     Exclude manual added steps
+    NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"metadata.%K != YES", HKMetadataKeyWasUserEntered];
+    predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, subPredicate]];
+    
     NSUInteger limit = [RCTAppleHealthKit uintFromOptions:input key:@"limit" withDefault:HKObjectQueryNoLimit];
     
     
