@@ -48,6 +48,7 @@
 
 + (NSPredicate *)predicateForSamplesOnDay:(NSDate *)date {
     NSCalendar *calendar = [NSCalendar currentCalendar];
+    calendar.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
     NSDate *startDate = [calendar startOfDayForDate:date];
     NSDate *endDate = [calendar dateByAddingUnit:NSCalendarUnitDay value:1 toDate:startDate options:0];
     return [HKQuery predicateForSamplesWithStartDate:startDate endDate:endDate options:HKQueryOptionStrictStartDate];
