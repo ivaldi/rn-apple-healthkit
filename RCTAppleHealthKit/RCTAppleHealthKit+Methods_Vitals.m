@@ -58,6 +58,9 @@
     }
     NSPredicate * predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
     
+    NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"metadata.%K != YES", HKMetadataKeyWasUserEntered];
+    predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, subPredicate]];
+    
     [self fetchQuantitySamplesOfType:heartRateType
                                 unit:unit
                            predicate:predicate
