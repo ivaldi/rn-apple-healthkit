@@ -25,6 +25,9 @@
     }
     NSPredicate * predicate = [RCTAppleHealthKit predicateForSamplesBetweenDates:startDate endDate:endDate];
 
+    NSPredicate *subPredicate = [NSPredicate predicateWithFormat:@"metadata.%K != YES", HKMetadataKeyWasUserEntered];
+    predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, subPredicate]];
+
     [self fetchQuantitySamplesOfType:activeEnergyType
                                 unit:cal
                            predicate:predicate
